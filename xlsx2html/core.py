@@ -206,7 +206,7 @@ def render_table(data, append_headers, append_lineno):
     html = [
         '<table  '
         'style="border-collapse: collapse" '
-        'border="0" '
+        'border="1" '
         'cellspacing="0" '
         'cellpadding="0">'
         '<colgroup>'
@@ -229,10 +229,13 @@ def render_table(data, append_headers, append_lineno):
         for cell in row:
             if cell['column'] in hidden_columns:
                 continue
-            trow.append('<td {attrs_str} style="{styles_str}">{formatted_value}</td>'.format(
+            trow.append('<td {attrs_str}>{formatted_value}</td>'.format(
                 attrs_str=render_attrs(cell['attrs']),
-                styles_str=render_inline_styles(cell['style']),
                 **cell))
+#             trow.append('<td {attrs_str} style="{styles_str}">{formatted_value}</td>'.format(
+#                 attrs_str=render_attrs(cell['attrs']),
+#                 styles_str=render_inline_styles(cell['style']),
+#                 **cell))
 
         trow.append('</tr>')
         html.append('\n'.join(trow))
@@ -285,6 +288,6 @@ def xlsx2html(filepath, output=None, locale='en',
     if not output:
         output = io.StringIO()
     if isinstance(output, str):
-        output = open(output, 'w')
+        output = open(output, 'w', encoding="utf-8")
     output.write(html)
     return output
